@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    `maven-publish`
     kotlin("jvm") version "1.3.50"
 }
 
@@ -10,7 +11,22 @@ group = "de.oncoding"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    mavenLocal()
     mavenCentral()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("PactUtils") {
+            from(components["kotlin"])
+        }
+    }
+
+    repositories {
+        maven {
+            mavenLocal()
+        }
+    }
 }
 
 dependencies {
