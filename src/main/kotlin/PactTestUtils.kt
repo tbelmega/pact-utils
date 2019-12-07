@@ -16,6 +16,22 @@ fun PactDslResponse.bodyWithCollectionOfObjectsLike(
     )
 }
 
+fun PactDslResponse.bodyLike(
+    example: Any
+): PactDslResponse {
+    return this.body(
+        like(example)
+    )
+}
+
+fun PactDslRequestWithPath.bodyWithCollectionOfObjectsLike(
+    example: Any
+): PactDslRequestWithPath {
+    return this.body(
+        like(example)
+    )
+}
+
 fun PactDslRequestWithPath.bodyLike(
     example: Any
 ): PactDslRequestWithPath {
