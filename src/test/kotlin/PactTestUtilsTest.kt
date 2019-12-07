@@ -16,7 +16,7 @@ class PactTestUtilsTest {
             val example = null
 
             val expectedDslPart = PactDslJsonArray
-                .arrayMinLike(1, PactDslJsonRootValue.stringType(null))
+                .arrayMinLike(0, PactDslJsonRootValue.stringType(null))
 
             // when
             val dslPart = likeCollectionOf(example)
@@ -224,7 +224,7 @@ class PactTestUtilsTest {
 
             val expectedDslPart = PactDslJsonBody()
                 .stringType("someStringParam", "foo")
-                .minArrayLike("someNestedArray", 1, PactDslJsonRootValue.stringType("bar"), 1)
+                .minArrayLike("someNestedArray", 0, PactDslJsonRootValue.stringType("bar"), 1)
 
 
             // when

@@ -9,7 +9,7 @@ import kotlin.reflect.full.memberProperties
  */
 fun PactDslResponse.bodyWithCollectionOfObjectsLike(
     example: Any,
-    minNumberOfElements: Int = 1
+    minNumberOfElements: Int = 0
 ): PactDslResponse {
     return this.body(
         likeCollectionOf(example, minNumberOfElements)
@@ -30,17 +30,17 @@ fun like(example: Any): DslPart {
 
 fun likeCollectionOf(
     example: Any?,
-    minNumberOfElements: Int = 1
+    minNumberOfElements: Int = 0
 ): DslPart {
     return when (example) {
         null -> PactDslJsonArray
-            .arrayMinLike(1, PactDslJsonRootValue.stringType(example))
+            .arrayMinLike(minNumberOfElements, PactDslJsonRootValue.stringType(example))
         is String -> PactDslJsonArray
-            .arrayMinLike(1, PactDslJsonRootValue.stringType(example))
+            .arrayMinLike(minNumberOfElements, PactDslJsonRootValue.stringType(example))
         is Number -> PactDslJsonArray
-            .arrayMinLike(1, PactDslJsonRootValue.numberType(example))
+            .arrayMinLike(minNumberOfElements, PactDslJsonRootValue.numberType(example))
         is Boolean -> PactDslJsonArray
-            .arrayMinLike(1, PactDslJsonRootValue.booleanType(example))
+            .arrayMinLike(minNumberOfElements, PactDslJsonRootValue.booleanType(example))
         is Collection<*> -> PactDslJsonArray()
             .array().eachLike(1)
             .likeObject(example.first()!!)
