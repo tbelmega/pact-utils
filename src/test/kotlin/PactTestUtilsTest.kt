@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class PactTestUtilsKtTest {
+class PactTestUtilsTest {
 
     @Nested
     inner class ForArrayBodies {
@@ -567,6 +567,41 @@ class PactTestUtilsKtTest {
             assertThat(dslPart.toString()).contains(
                 "someNestedArray",
                 "hello",
+                "someStringParam",
+                "foo"
+            )
+        }
+
+        @Test
+        fun `Array of Arrays in Objects are translated to PactDsl`() {
+            // given
+            val example = ClassWithNestedArray(
+                someStringParam = "hello",
+                someNestedArray = listOf(
+                    setOf(
+                        SimpleClassWithString(someStringParam = "foo")
+                    )
+                )
+            )
+
+            val expectedDslPart = PactDslJsonBody()
+                .eachArrayLike("someNestedArray", 1)
+                .`object`()
+                .stringType("someStringParam", "foo")
+                .closeObject()
+                .closeArray()
+                .closeArray().asBody()
+                .stringType("someStringParam", "hello")
+
+
+            // when
+            val dslPart = like(example)
+
+            // then
+            assertThat(dslPart.toString()).isEqualTo(
+                expectedDslPart.toString()
+            )
+            assertThat(dslPart.toString()).contains(
                 "someStringParam",
                 "foo"
             )

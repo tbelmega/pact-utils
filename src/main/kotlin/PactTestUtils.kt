@@ -76,6 +76,9 @@ fun PactDslJsonBody.likeCollectionOf(name: String, example: Collection<*>): Pact
         is String -> this.eachLike(name, PactDslJsonRootValue.stringType(value), 1)
         is Number -> this.eachLike(name, PactDslJsonRootValue.numberType(value), 1)
         is Boolean -> this.eachLike(name, PactDslJsonRootValue.booleanType(value), 1)
+        is Collection<*> -> this.eachArrayLike(name, 1)
+            .`object`().likeObject(value.first()!!)
+            .closeArray().closeArray().asBody()
         else -> this.eachLike(name).likeObject(value).closeArray().asBody()
     }
 }
